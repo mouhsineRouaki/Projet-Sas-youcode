@@ -11,7 +11,7 @@ struct Joueur {
 	int Buts;
 };
 struct Equipe {
-	struct Joueurs Joueurs[100];
+	struct Joueur Joueurs[100];
 };
 void AfficherJoueur(struct Joueur joueur){
 	if(joueur.Buts > 10){
@@ -50,7 +50,7 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 	if(Trier == 1){
 		for(i = 0 ; i < size ;i++){
 			for(j = 0 ; j < size-1-i ;j++){
-				if(strcmp(joueurs[j].Nom,joueurs[j+1].Nom) > 0)){
+				if(strcmp(joueurs[j].Nom,joueurs[j+1].Nom) > 0){
 					struct Joueur temp = joueurs[j];
 					joueurs[j] = joueurs[j+1];
 					joueurs[j+1]=temp;
@@ -60,7 +60,7 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 	}else if(Trier == 2){
 		for(i = 0 ; i < size ;i++){
 			for(j = 0 ; j < size-1-i ;j++){
-				if(joueurs[j].Age > joueurs[j+1].Age)){
+				if(joueurs[j].Age > joueurs[j+1].Age){
 					struct Joueur temp = joueurs[j];
 					joueurs[j] = joueurs[j+1];
 					joueurs[j+1]=temp;
@@ -70,7 +70,7 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 	}else{
 		for(i = 0 ; i < size ;i++){
 			for(j = 0 ; j < size-1-i ;j++){
-				if(joueurs[j].Poste > joueurs[j+1].Poste)){
+				if(joueurs[j].Poste > joueurs[j+1].Poste){
 					struct Joueur temp = joueurs[j];
 					joueurs[j] = joueurs[j+1];
 					joueurs[j+1]=temp;
@@ -146,7 +146,7 @@ void JoueurParButs(int buts,struct Equipe equipe){
 	int i,size = sizeof(equipe.Joueurs) / sizeof(equipe.Joueurs[0]);
 	for(i=0 ; i>size ; i++){
 		if(equipe.Joueurs[i].Buts == buts){
-			AfficherJoueur[equipe.Joueurs[i]]
+			AfficherJoueur(equipe.Joueurs[i]);
 		}
 	}
 }
@@ -155,22 +155,23 @@ void MeilleurButeur(struct Equipe equipe){
 	struct Joueur MeilleurButeur =equipe.Joueurs[0];
 	int size=sizeof(equipe.Joueurs) / sizeof(equipe.Joueurs[0]);
 	for(i=0 ; i>size ; i++){
-		if(equipe.Joueurs[i].Buts>MeilleurButeur){
+		if(equipe.Joueurs[i].Buts > MeilleurButeur.Buts){
 			MeilleurButeur = equipe.Joueurs[i];
 		}
 	}
 	AfficherJoueur(MeilleurButeur);
 }
-void MeilleurButeur(struct Equipe equipe){
+
+void PlusJeuneAge(struct Equipe equipe){
 	int i;
 	struct Joueur plusJeune =equipe.Joueurs[0];
 	struct Joueur plusAge =equipe.Joueurs[0];
 	int size=sizeof(equipe.Joueurs) / sizeof(equipe.Joueurs[0]);
 	for(i=0 ; i>size ; i++){
-		if(equipe.Joueurs[i].Age>plusAge){
+		if(equipe.Joueurs[i].Age>plusAge.Age){
 			plusAge = equipe.Joueurs[i];
 		}
-		if(equipe.Joueurs[i].Age<plusJeune){
+		if(equipe.Joueurs[i].Age<plusJeune.Age){
 			plusJeune = equipe.Joueurs[i];
 		}
 		
