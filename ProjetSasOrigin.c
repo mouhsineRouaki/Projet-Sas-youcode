@@ -73,20 +73,10 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 				}
 			}
 		}
-	}else if(Trier == 2){
-		for(i = 0 ; i < size ;i++){
-			for(j = 0 ; j < size-1-i ;j++){
-				if(joueurs[j].Age > joueurs[j+1].Age){
-					struct Joueur temp = joueurs[j];
-					joueurs[j] = joueurs[j+1];
-					joueurs[j+1]=temp;
-				}
-			}
-		}
 	}else{
 		for(i = 0 ; i < size ;i++){
 			for(j = 0 ; j < size-1-i ;j++){
-				if(strcmp(joueurs[j].Poste , joueurs[j+1].Poste) > 0){
+				if(joueurs[j].Age > joueurs[j+1].Age){
 					struct Joueur temp = joueurs[j];
 					joueurs[j] = joueurs[j+1];
 					joueurs[j+1]=temp;
@@ -98,19 +88,27 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 		AfficherJoueur(joueurs[i]);
 	}
 }
-int RechercheJoueurParNom(char nomRechercher[100],int size,struct Joueur joueurs[]){
+void joueursParPoste(char poste[],int size,struct Equipe equipe){
 	int i;
 	for(i = 0 ; i < size ;i++){
-		if(strcmp(nomRechercher,joueurs[i].Nom)==0){
+		if(strcmp(equipe.Joueurs[i].Poste,poste) == 0){
+			AfficherJoueur(equipe.Joueurs[i]);
+		}
+	}
+}
+int RechercheJoueurParNom(char nomRechercher[100],int size,struct Equipe equipe){
+	int i;
+	for(i = 0 ; i < size ;i++){
+		if(strcmp(nomRechercher,equipe.Joueurs[i].Nom)==0){
 			return i;
 		}
 	}
 	return -1;
 }
-int RechercheJoueurParId(int id,int size,struct Joueur joueurs[]){
+int RechercheJoueurParId(int id,int size,struct Equipe equipe){
 	int i;
 	for(i = 0 ; i < size ;i++){
-		if(joueurs[i].Id == id){
+		if(equipe.Joueurs[i].Id == id){
 			return i;
 		}
 	}
@@ -123,16 +121,16 @@ struct Joueur getJoueurByIndex(int index, struct Joueur joueurs[] ){
 
 
 struct Equipe MoidifierPosteJoueurParId(int id,char nouvelleValeur[100],int size,struct Equipe equipe){
-	int index = RechercheJoueurParId(id,size,equipe.Joueurs);
+	int index = RechercheJoueurParId(id,size,equipe);
 	struct Joueur joueur = getJoueurByIndex(index,equipe.Joueurs);
 	strcpy(joueur.Poste,nouvelleValeur);
 	equipe.Joueurs[index] = joueur;
 	printf("\tle poste de joueur et bien modifier !!");
-	return equipe ;
+	return equipe;
 }
 
 struct Equipe MoidifierJoueurParId(int id,int nouvelleValeur,int Modifieur,int size,struct Equipe equipe){
-	int index = RechercheJoueurParId(id,size,equipe.Joueurs);
+	int index = RechercheJoueurParId(id,size,equipe);
 	struct Joueur joueur = getJoueurByIndex(index,equipe.Joueurs);
 	if(Modifieur == 1){
 		joueur.Age=nouvelleValeur;
@@ -293,25 +291,25 @@ int main(){
 			case 2:
 				printf(" Donner le id de joueur que tu dois modifier : ");
 				scanf("%d",&idRechercher);
-				if(RechercheJoueurParId(idRechercher,NombreJoueurAjout,equipe.Joueurs) != -1){
+				if(RechercheJoueurParId(idRechercher,sizeJoueurs,equipe) != -1){
 					operationModification = MenuModification();
 					switch(operationModification){
 						case 1:
 							printf("Donner le nouveau poste ");
 							scanf("%s",&nouvellePoste);
-							nouvelleEquipe = MoidifierPosteJoueurParId(idRechercher,nouvellePoste,NombreJoueurAjout,equipe.Joueurs);
+							nouvelleEquipe = MoidifierPosteJoueurParId(idRechercher,nouvellePoste,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
 							break;
 						case 2:
 							printf("Donner le nouveau age : ");
-							scanf("%d",&nouvellePoste);
-							nouvelleEquipe= MoidifierJoueurParId(idRechercher,nouvelleAge,1,NombreJoueurAjout,equipe.Joueurs);
+							scanf("%d",&nouvelleAge);
+							nouvelleEquipe = MoidifierJoueurParId(idRechercher,nouvelleAge,1,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
 							break;
 						case 3:
 							printf("Donner les nouveau buts : ");
 							scanf("%d",&nouvelleButs);
-							nouvelleEquipe= MoidifierJoueurParId(idRechercher,nouvelleButs,1,NombreJoueurAjout,equipe.Joueurs);
+							nouvelleEquipe= MoidifierJoueurParId(idRechercher,nouvelleButs,1,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
 							break;
 						case 4:
@@ -335,13 +333,15 @@ int main(){
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
-						AffichageTrier(1,sizeJoueurs-1,equipe.Joueurs);
+						AffichageTrier(1,sizeJoueurs,equipe.Joueurs);
 						break;
 					case 2:
-						AffichageTrier(2,sizeJoueurs-1,equipe.Joueurs);
+						AffichageTrier(2,sizeJoueurs,equipe.Joueurs);
 						break;
 					case 3:
-						AffichageTrier(3,sizeJoueurs-1,equipe.Joueurs);
+						printf("Donner le Poste :");
+						scanf("%s",&nouvellePoste);
+						joueursParPoste(nouvellePoste,sizeJoueurs,equipe);
 						break;
 					default :
 						printf("donner nombre de operation ajouter");
@@ -356,7 +356,7 @@ int main(){
 					case 1:
 						printf(" donner le nom que tu rechercher :");
 						scanf("%s",&nomRechercher);
-						int index  = RechercheJoueurParNom(nomRechercher,NombreJoueurAjout,equipe.Joueurs);
+						index  = RechercheJoueurParNom(nomRechercher,sizeJoueurs,equipe);
 						if( index != -1){
 							AfficherJoueur(getJoueurByIndex(index,equipe.Joueurs));
 						}else{
@@ -366,7 +366,7 @@ int main(){
 					case 2:
 						printf(" donner id que tu rechercher :");
 						scanf("%d",&idRechercher);
-						index = RechercheJoueurParId(idRechercher,NombreJoueurAjout,equipe.Joueurs);
+						index = RechercheJoueurParId(idRechercher,sizeJoueurs,equipe);
 						if( index != -1){
 							AfficherJoueur(getJoueurByIndex(index,equipe.Joueurs));
 						}else{
