@@ -145,8 +145,8 @@ struct Equipe MoidifierJoueurParId(int id,int nouvelleValeur,int Modifieur,int s
 }
 
 struct Equipe SupprimerJoueur(int index,int size,struct Equipe equipe){
-	int i,j;
-	for(i=index ; i>size ; i++){
+	int i;
+	for(i=index ; i < size ; i++){
 		equipe.Joueurs[i] = equipe.Joueurs[i+1];
 	}
 	printf("le joueur est bien supprimer");
@@ -321,8 +321,16 @@ int main(){
 							printf("le joueur ne pas trouver");
 						}
 						break;
+			// supprimer un joueur
 			case 3:
-				
+				printf(" Donner le id de joueur que tu dois modifier : ");
+				scanf("%d",&idRechercher);
+				index = RechercheJoueurParId(idRechercher,sizeJoueurs,equipe);
+				if(index != -1){
+					nouvelleEquipe=SupprimerJoueur(index,sizeJoueurs,equipe);
+					equipe = nouvelleEquipe;
+					sizeJoueurs--;
+				}
 				break;
 			// Afficher les joueurs
 			case 4:
