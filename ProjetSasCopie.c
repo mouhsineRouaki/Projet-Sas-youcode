@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#define RED   "\x1b[31m" 
+#define RESET   "\x1b[0m"
+#define GREEN   "\x1b[32m"
+
+int idIncrement = 1;
 struct Joueur {
 	int Id;
 	char Nom[100];
@@ -14,17 +19,18 @@ struct Equipe {
 	struct Joueur Joueurs[100];
 };
 void AfficherJoueur(struct Joueur joueur){
-	if(joueur.Buts > 10){
+	if(joueur.Buts >= 10){
 		printf("id : %d | nom : %s | prenom : %s | numero maillot : %d | poste : %s | age : %d | buts : %d (star de l’equipe)\n",joueur.Id,joueur.Nom,joueur.Prenom,joueur.NumeroMaillot,joueur.Poste,joueur.Age,joueur.Buts);
 	}else{
 		printf("id : %d | nom : %s | prenom : %s | numero maillot : %d | poste : %s | age : %d | buts : %d\n",joueur.Id,joueur.Nom,joueur.Prenom,joueur.NumeroMaillot,joueur.Poste,joueur.Age,joueur.Buts);
 	}
 }
-void AjouterJoueur(int nombreJoueursAjouter,int index, struct Joueur joueurs[]){
+struct Equipe AjouterJoueur(int nombreJoueursAjouter,int index, struct Equipe equipe){
 	struct Joueur joueur;
 	int i;
 	for(i = 1; i <= nombreJoueursAjouter ;i++ ){
-		joueur.Id = index+1 ;
+		joueur.Id = idIncrement ;
+		idIncrement+=1;
 		printf("\tDonner le nom de Joueur :");
 		scanf("%s",&joueur.Nom);
 		printf("\n\tDonner le prenom de Joueur :");
@@ -37,14 +43,18 @@ void AjouterJoueur(int nombreJoueursAjouter,int index, struct Joueur joueurs[]){
 		scanf("%d",&joueur.Age);
 		printf("\n\tDonner buts de Joueur :");
 		scanf("%d",&joueur.Buts);
-		joueurs[index] = joueur;
+		equipe.Joueurs[index] = joueur;
+		index +=1;
 	}
 	if(nombreJoueursAjouter == 1){
 		printf("\n\tLe joueur est bien ajouter !! :");
 	}else{
 		printf("\n\tTous les joueur est bien ajouter !! :");
 	}
+	return equipe;
 }
+
+
 void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 	int i,j;
 	if(Trier == 1){
@@ -115,11 +125,11 @@ void MoidifierJoueur(char nomRechercher[100],int nouvelleValeur,int Modifieur,in
 	int index = RechercheJoueurParNom(nomRechercher,size,joueurs);
 	struct Joueur joueur = getJoueurByIndex(index,joueurs);
 	if(Modifieur == 1){
-		strcpy(joueur.Age,nouvelleValeur);
+		joueur.Age=nouvelleValeur;
 		joueurs[index] = joueur;
 		printf("\tl'age de joueur et bien modifier !!");
 	}else{
-		strcpy(joueur.Buts,nouvelleValeur);
+		joueur.Buts=nouvelleValeur;
 		joueurs[index] = joueur;
 		printf("\tles buts de joueur et bien modifier !!");
 	}
@@ -181,10 +191,89 @@ void PlusJeuneAge(struct Equipe equipe){
 	printf("le joueur plus age cest /n");
 	AfficherJoueur(plusAge);
 }
-
+int Menu(){
+	int operation;
+	printf("             Menu : \n");
+	printf(" 1-Pour ajouter un joueur \n");
+	printf(" 2-Pour modifier un joueur \n");
+	printf(" 3-Pour supprimer un joueur \n");
+	printf(" 4-Pour afficher les joueur \n");
+	printf(" 5-Pour rechercher a un joueur\n");
+	printf(RED" 6-Pour quitter le programme\n"RESET);
+	printf(" Entrez votre numero pour votre operation : ");
+	scanf("%d",&operation);
+	return operation;
+}
 
 
 int main(){
+	struct Equipe equipe;
+	struct Equipe nouvelleEquipe;
+	int operationMenuPrincipal;
+	int repetition = 1;
+	int sizeJoueurs = 1;
+	int OperationAjout,PositionAjout = 0,NombreJoueurAjout;
+	int OperationAffichage;
+	while(repetition == 1){
+		operationMenuPrincipal = Menu();
+		switch(operationMenuPrincipal){
+			case 1:
+				printf(" 1-Pour ajouter un joueur \n");
+				printf(" 2-Pour modifier plusieurs joueurs \n");
+				printf(" 3-Pour retour a la menu principal \n");
+				printf(" Entrez le numero d'operation :");
+				scanf("%d",&OperationAjout);
+				switch(OperationAjout){
+					case 1:
+						nouvelleEquipe= AjouterJoueur(1,PositionAjout,equipe);
+						equipe = nouvelleEquipe;
+						PositionAjout+=1;
+						sizeJoueurs+=1;
+						break;
+					case 2:
+						printf("Donner le nombre de joueur :");
+						scanf("%d",&NombreJoueurAjout);
+						nouvelleEquipe = AjouterJoueur(NombreJoueurAjout,PositionAjout,equipe);
+						equipe = nouvelleEquipe;
+						PositionAjout+=NombreJoueurAjout;
+						sizeJoueurs+=NombreJoueurAjout;
+						break;
+					case 3:
+						break;
+					default :
+						printf("donner nombre de operation ajouter");
+				}
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				printf(" 1-Pour les joueur trier par le nom\n");
+				printf(" 2-Pour les joueur trier par l'age\n");
+				printf(" 3-Pour les joueur trier par le poste\n");
+				printf(" Entrez le numero d'operation :");
+				scanf("%d",&OperationAffichage);
+				switch(OperationAffichage){
+					case 1:
+						AffichageTrier(1,sizeJoueurs,equipe.Joueurs);
+						break;
+					case 2:
+						AffichageTrier(2,sizeJoueurs,equipe.Joueurs);
+						break;
+					case 3:
+						AffichageTrier(3,sizeJoueurs,equipe.Joueurs);
+						break;
+					default :
+						printf("donner nombre de operation ajouter");
+				}
+				break;
+			case 6:
+				repetition = 0;
+				break;
+		}
+	}
+	
 	
 	
 	
