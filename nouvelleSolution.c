@@ -60,28 +60,47 @@ void AjouterJoueur(){
 		printf("\tDonner le prenom de Joueur :");
 		scanf("%s",&joueur.Prenom);
 		printf("\tDonner le nemero maillot de Joueur :");
-		scanf("%d",&joueur.NumeroMaillot);
-		printf("\tDonner le poste de Joueur(1-gardien||2-défenseur||3-milieu||4-attaquant) :");
-		scanf("%d",&operationPoste);
-		switch(operationPoste){
-			case 1:strcpy(joueur.Poste,poste.gardien);break;
-			case 2:strcpy(joueur.Poste,poste.defenseur) ;break;
-			case 3:strcpy(joueur.Poste,poste.milieu) ;break;
-			case 4:strcpy(joueur.Poste,poste.attaquant) ;break;
-			default :printf("a partir le nombre entrer ne pas correcte nous donne poste par default attaquant");
-				strcpy(joueur.Poste,poste.attaquant );
+		numeroMailotJ :
+		if(scanf("%d",&joueur.NumeroMaillot)==0){
+			printf(RED"le numero de mailot ne pas correct"RESET);
+			goto numeroMailotJ;
 		}
+		posteJ;
+		printf("\tDonner le poste de Joueur(1-gardien||2-défenseur||3-milieu||4-attaquant) :");
+		if(scanf("%d",&operationPoste)==1){
+			switch(operationPoste){
+				case 1:strcpy(joueur.Poste,poste.gardien);break;
+				case 2:strcpy(joueur.Poste,poste.defenseur) ;break;
+				case 3:strcpy(joueur.Poste,poste.milieu) ;break;
+				case 4:strcpy(joueur.Poste,poste.attaquant) ;break;
+				default :printf(RED"le nombre entrer ne pas correcte"RESET);
+					goto posteJ;
+			}
+		}else{
+			printf(RED"le poste ne pas correct"RESET);
+			goto posteJ;
+		}
+		
 		printf("\tDonner age de Joueur :");
-		scanf("%d",&joueur.Age);
+		ageJ :
+		if(scanf("%d",&joueur.Age)==0){
+			printf(RED"age  ne pas correct"RESET);
+			goto ageJ;
+		}
 		printf("\tDonner buts de Joueur :");
 		scanf("%d",&joueur.Buts);
+		butsJ :
+		if(scanf("%d",&joueur.Buts)==0){
+			printf(RED"les buts ne pas correct"RESET);
+			goto butsJ;
+		}
 		equipe.Joueurs[index] = joueur;
 		index +=1;
 	}
 	if(nombreJoueursAjouter == 1){
-		printf("\n\tLe joueur est bien ajouter !! :");
+		printf(GREEN"\n\tLe joueur est bien ajouter !! :"RESET);
 	}else{
-		printf("\n\tTous les joueur est bien ajouter !! :");
+		printf(GREEN"\n\tTous les joueur est bien ajouter !! :"RESET);
 	}
 }
 
