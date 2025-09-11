@@ -34,19 +34,6 @@ struct Joueur {
 struct Equipe {
 	struct Joueur Joueurs[100];
 };
-int validEnter(char entryStr[],char erreurEntry[]){
-	bool isValid = true;
-	int operation;
-	while(isValid){
-			printf("\t%s",entryStr);
-			if(scanf("%d",&operation)==0){
-				printf(RED"\t%s"RESET,erreurEntry);
-				fflush(stdin);
-			}else{
-				isValid = false;
-			}
-	}
-}
 void AfficherJoueur(struct Joueur joueur){
 	if(joueur.Buts >= 10){
 		printf(GREEN "  ID : %-3d | Nom : %-8s | Prenom : %-8s | Maillot : %-3d | Poste : %-9s    | Age : %-2d | Buts : %-2d | Staus : %-8s  (Star de l equipe)\n" RESET,
