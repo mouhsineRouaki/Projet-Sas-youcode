@@ -2,7 +2,6 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
-#include <time.h>
 #define RED   "\x1b[31m" 
 #define RESET   "\x1b[0m"
 #define GREEN   "\x1b[32m"
@@ -269,7 +268,7 @@ void AgeMoyenne(int size,struct Equipe equipe){
 		somme += equipe.Joueurs[i].Age;
 	}
 	moyenne = somme / size;
-	printf("age moyenne de ce equipe c est : %2.f",moyenne);
+	printf("age moyenne de ce equipe c est : %2.f\n",moyenne);
 }
 void JoueursParButs(int buts,int size,struct Equipe equipe){
 	int i;
@@ -319,32 +318,32 @@ int Menu(){
 	printf(" 6 - Statistiques de l equipe\n");
 	printf(RED " 7 - Quitter le programme\n" RESET);
 	printf("============================================================\n");
-	printf("Entrez votre choix : ");
+	printf(GREEN"Entrez votre choix : "RESET);
 	scanf("%d",&operation);
 	return operation;
 }
 
 int MenuModification(){
 	int operationModification;
-	printf("    |====== MODIFICATION DU JOUEUR =======|\n");
+	printf("    |====== "GREEN"MODIFICATION DU JOUEUR"RESET" =======|\n");
 	printf("    |   1-Modifier le poste du joueur     |\n");
 	printf("    |   2-Modifier l'age du joueur        |\n");
 	printf("    |   3-Modifier les buts du joueur     |\n");
 	printf("    |   4-Retour au menu principal        |\n");
 	printf("    |=====================================|\n");
-	printf("Votre choix : ");
+	printf(GREEN"     Votre choix : "RESET);
 	scanf("%d", &operationModification);
 	return operationModification;
 }
 int MenuPosteTrier(){
 	int operation;
-	printf("                |======= AFFICHAGE DU POSTES TRIER ======|\n");
+	printf("                |======="GREEN" AFFICHAGE DU POSTES TRIER"RESET" ======|\n");
 	printf("                |   1-Trier par age                      |\n");
 	printf("                |   2-Trier par ordre alphabetique       |\n");
 	printf("                |   3-Pour retour a menu affichage       |\n");
 	printf("                |   4-Pour retour a menu principal       |\n");
 	printf("                |========================================|\n");
-	printf("                 Votre choix : ");
+	printf(GREEN"                 Votre choix : "RESET);
 	scanf("%d",&operation);
 	return operation;
 }
@@ -367,15 +366,15 @@ int main(){
 	struct Joueur j3 = {3, "Kante", "NGolo", 13, "milieu", 32, 3, "titulaire"};
 	struct Joueur j4 = {4, "Varane", "Raphael", 4, "defenseur", 31, 2, "titulaire"};
 	struct Joueur j5 = {5, "Lloris", "Hugo", 1, "gardien", 37, 0, "titulaire"};
-	struct Joueur j6 = {6, "Pavard", "Benjamin", 2, "defenseur", 29, 1, "remplaçant"};
+	struct Joueur j6 = {6, "Pavard", "Benjamin", 2, "defenseur", 29, 1, "remplacant"};
 	struct Joueur j7 = {7, "Grizman", "Antoine", 8, "milieu", 34, 18, "titulaire"};
-	struct Joueur j8 = {8, "Camavng", "Eduardo", 6, "milieu", 22, 4, "remplaçant"};
-	struct Joueur j9 = {9, "Kimpemb", "Presnel", 3, "defenseur", 30, 0, "remplaçant"};
-	struct Joueur j10 = {10, "Areola", "Alphonse", 16, "gardien", 32, 0, "remplaçant"};
+	struct Joueur j8 = {8, "Camavng", "Eduardo", 6, "milieu", 22, 4, "remplacant"};
+	struct Joueur j9 = {9, "Kimpemb", "Presnel", 3, "defenseur", 30, 0, "remplacant"};
+	struct Joueur j10 = {10, "Areola", "Alphonse", 16, "gardien", 32, 0, "remplacant"};
 	struct Joueur j11 = {11, "Theo", "Hernandz", 22, "defenseur", 27, 5, "titulaire"};
-	struct Joueur j12 = {12, "Giroud", "Olivier", 18, "attaquant", 38, 21, "remplaçant"};
+	struct Joueur j12 = {12, "Giroud", "Olivier", 18, "attaquant", 38, 21, "remplacant"};
 	struct Joueur j13 = {13,"Tchomin", "Aurelien", 14, "milieu", 25, 3, "titulaire"};
-	struct Joueur j14 = {14, "Coman", "Kingsley", 11, "attaquant", 29, 12, "remplaçant"};
+	struct Joueur j14 = {14, "Coman", "Kingsley", 11, "attaquant", 29, 12, "remplacant"};
 	struct Joueur j15 = {15, "Maigan", "Mike", 23, "gardien", 30, 0, "titulaire"};
 
 	equipe.Joueurs[PositionAjout] = j1;
@@ -413,12 +412,12 @@ int main(){
 		switch(operationMenuPrincipal){
 			//============================================================= ajoute de joueur ou des joueur==============================================================
 			case 1:
-				printf("    |========== AJOUTE DU JOUEUR =========|\n");
+				printf("    |=========="GREEN" AJOUTE DU JOUEUR "RESET"=========|\n");
 				printf("    |   1-Pour ajouter un joueur          |\n");
 				printf("    |   2-Pour ajouter plusieurs joueurs  |\n");
 				printf("    |   3-Pour retour a la menu principal |\n");
 				printf("    |=====================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAjout);
 				switch(OperationAjout){
 					case 1:
@@ -444,7 +443,7 @@ int main(){
 				break;
 			// ========================================================================modification de joueur====================================================================
 			case 2:
-				printf(" Donner le id de joueur que tu dois modifier : ");
+				printf("    Donner le id de joueur que tu dois modifier : ");
 				scanf("%d",&idRechercher);
 				if(RechercheJoueurParId(idRechercher,sizeJoueurs,equipe) != -1){
 					menuModification:
@@ -452,7 +451,7 @@ int main(){
 					switch(operationModification){
 						case 1:
 							while(posteJ){
-								printf("\tDonner le poste de Joueur(1-gardien||2-défenseur||3-milieu||4-attaquant) :");
+								printf("\tDonner le poste de Joueur(1-gardien||2-defenseur||3-milieu||4-attaquant) :");
 								if(scanf("%d",&operationPoste)==1){
 									posteJ = false;
 									switch(operationPoste){
@@ -520,7 +519,7 @@ int main(){
 				printf("    |   4-Pour les joueur trier par le poste |\n");
 				printf("    |   5-Pour retour a la menu principal    |\n");
 				printf("    |========================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
@@ -542,7 +541,7 @@ int main(){
 						printf("        |   5-Pour retour a menu affichage       |\n");
 						printf("        |   6-Pour retour a menu principal       |\n");
 						printf("        |========================================|\n");
-						printf("         Votre choix : ");
+						printf(GREEN"         Votre choix : "RESET);
 						scanf("%d",&operationTrier);
 						switch(operationTrier){
 							case 1:
@@ -656,7 +655,7 @@ int main(){
 				printf("    |   2-Pour Rechercher par id             |\n");
 				printf("    |   3-Pour Retour a menu principal       |\n");
 				printf("    |========================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&operationTypeRecherche);
 				switch(operationTypeRecherche){
 					case 1:
@@ -682,7 +681,7 @@ int main(){
 					case 3:
 						goto menuPrincipal;
 					default :
-						printf("le choix ne pas trouver\n");
+						printf(RED"le choix ne pas trouver\n"RESET);
 						goto menuRecherche;
 				}
 				goto menuPrincipal;
@@ -697,11 +696,11 @@ int main(){
 				printf("    |   5-Pour afficher le joueur le plus jeune et le plus age       |\n");
 				printf("    |   6--Pour Retour a menu principal                              |\n");
 				printf("    |================================================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
-						printf("le nombre total de ce equipe c est : %d",sizeJoueurs);
+						printf("le nombre total de ce equipe c est : %d\n",sizeJoueurs);
 						goto menuStatistique;
 					case 2:
 						AgeMoyenne(sizeJoueurs,equipe);
@@ -720,7 +719,7 @@ int main(){
 					case 6:
 						goto menuPrincipal;
 					default :
-						printf("donner nombre exist dans le sous menu !!");
+						printf(RED"le choix ne pas trouver\n"RESET);
 						goto menuStatistique;
 				}
 				

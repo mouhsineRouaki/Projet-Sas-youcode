@@ -2,7 +2,6 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
-#include <time.h>
 #define RED   "\x1b[31m" 
 #define RESET   "\x1b[0m"
 #define GREEN   "\x1b[32m"
@@ -319,32 +318,32 @@ int Menu(){
 	printf(" 6 - Statistiques de l equipe\n");
 	printf(RED " 7 - Quitter le programme\n" RESET);
 	printf("============================================================\n");
-	printf("Entrez votre choix : ");
+	printf(GREEN"Entrez votre choix : "RESET);
 	scanf("%d",&operation);
 	return operation;
 }
 
 int MenuModification(){
 	int operationModification;
-	printf("    |====== MODIFICATION DU JOUEUR =======|\n");
+	printf("    |====== "GREEN"MODIFICATION DU JOUEUR"RESET" =======|\n");
 	printf("    |   1-Modifier le poste du joueur     |\n");
 	printf("    |   2-Modifier l'age du joueur        |\n");
 	printf("    |   3-Modifier les buts du joueur     |\n");
 	printf("    |   4-Retour au menu principal        |\n");
 	printf("    |=====================================|\n");
-	printf("     Votre choix : ");
+	printf(GREEN"     Votre choix : "RESET);
 	scanf("%d", &operationModification);
 	return operationModification;
 }
 int MenuPosteTrier(){
 	int operation;
-	printf("                |======= AFFICHAGE DU POSTES TRIER ======|\n");
+	printf("                |======="GREEN" AFFICHAGE DU POSTES TRIER"RESET" ======|\n");
 	printf("                |   1-Trier par age                      |\n");
 	printf("                |   2-Trier par ordre alphabetique       |\n");
 	printf("                |   3-Pour retour a menu affichage       |\n");
 	printf("                |   4-Pour retour a menu principal       |\n");
 	printf("                |========================================|\n");
-	printf("                 Votre choix : ");
+	printf(GREEN"                 Votre choix : "RESET);
 	scanf("%d",&operation);
 	return operation;
 }
@@ -413,12 +412,12 @@ int main(){
 		switch(operationMenuPrincipal){
 			//============================================================= ajoute de joueur ou des joueur==============================================================
 			case 1:
-				printf("    |========== AJOUTE DU JOUEUR =========|\n");
+				printf("    |=========="GREEN" AJOUTE DU JOUEUR "RESET"=========|\n");
 				printf("    |   1-Pour ajouter un joueur          |\n");
 				printf("    |   2-Pour ajouter plusieurs joueurs  |\n");
 				printf("    |   3-Pour retour a la menu principal |\n");
 				printf("    |=====================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAjout);
 				switch(OperationAjout){
 					case 1:
@@ -452,7 +451,7 @@ int main(){
 					switch(operationModification){
 						case 1:
 							while(posteJ){
-								printf("\tDonner le poste de Joueur(1-gardien||2-défenseur||3-milieu||4-attaquant) :");
+								printf("\tDonner le poste de Joueur(1-gardien||2-defenseur||3-milieu||4-attaquant) :");
 								if(scanf("%d",&operationPoste)==1){
 									posteJ = false;
 									switch(operationPoste){
@@ -520,7 +519,7 @@ int main(){
 				printf("    |   4-Pour les joueur trier par le poste |\n");
 				printf("    |   5-Pour retour a la menu principal    |\n");
 				printf("    |========================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
@@ -542,7 +541,7 @@ int main(){
 						printf("        |   5-Pour retour a menu affichage       |\n");
 						printf("        |   6-Pour retour a menu principal       |\n");
 						printf("        |========================================|\n");
-						printf("         Votre choix : ");
+						printf(GREEN"         Votre choix : "RESET);
 						scanf("%d",&operationTrier);
 						switch(operationTrier){
 							case 1:
@@ -656,7 +655,7 @@ int main(){
 				printf("    |   2-Pour Rechercher par id             |\n");
 				printf("    |   3-Pour Retour a menu principal       |\n");
 				printf("    |========================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&operationTypeRecherche);
 				switch(operationTypeRecherche){
 					case 1:
@@ -697,7 +696,7 @@ int main(){
 				printf("    |   5-Pour afficher le joueur le plus jeune et le plus age       |\n");
 				printf("    |   6--Pour Retour a menu principal                              |\n");
 				printf("    |================================================================|\n");
-				printf("     Votre choix : ");
+				printf(GREEN"     Votre choix : "RESET);
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
