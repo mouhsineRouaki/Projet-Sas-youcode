@@ -8,14 +8,13 @@
 #define GREEN   "\x1b[32m"
 
 int idIncrement = 6;
-int sizeEquipeTrier = 0;
+
 struct Poste{
 	char gardien[100];
 	char defenseur[100]; 
 	char milieu[100];
 	char attaquant[100];
 };
-struct Poste poste = {"gardien","defenseur","milieu","attaquant"};
 
 struct Joueur {
 	int Id;
@@ -29,16 +28,27 @@ struct Joueur {
 struct Equipe {
 	struct Joueur Joueurs[100];
 };
+
+struct Equipe equipe;
+struct Poste poste = {"gardien","defenseur","milieu","attaquant"};
+int i,PositionAjout = 0,NombreJoueurAjout;
+int operationMenuPrincipal;
+int sizeJoueurs = 5;
+int OperationAjout,operationModification,operationTypeRecherche,operationTrier;
+char nomRechercher[100],nouvellePoste[100];
+int idRechercher,nouvelleAge,nouvelleButs,index,buts;
+char confirmationSupprestion;
+
 void AfficherJoueur(struct Joueur joueur){
 	if(joueur.Buts >= 10){
-		printf(GREEN "     ID : %-3d | Nom : %-8s | Prénom : %-8s | Maillot : %-3d | Poste : %-7s | Age : %-2d| Buts : %-2d  (Star de l equipe)\n" RESET,
+		printf(GREEN "ID : %-3d | Nom : %-10s | Prenom : %-10s | Maillot : %-3d | Poste : %-10s | Âge : %-2d | Buts : %-2d  (Star de l equipe)\n" RESET,
 			joueur.Id, joueur.Nom, joueur.Prenom, joueur.NumeroMaillot, joueur.Poste, joueur.Age, joueur.Buts);
 	}else{
-		printf("     ID : %-3d | Nom : %-8s | Prénom : %-8s | Maillot : %-3d | Poste : %-7s | Age : %-2d| Buts : %-2d\n",
+		printf("ID : %-3d | Nom : %-10s | Prenom : %-10s | Maillot : %-3d | Poste : %-10s | Âge : %-2d | Buts : %-2d\n",
 			joueur.Id, joueur.Nom, joueur.Prenom, joueur.NumeroMaillot, joueur.Poste, joueur.Age, joueur.Buts);
 	}
 }
-struct Equipe AjouterJoueur(int nombreJoueursAjouter,int index, struct Equipe equipe){
+void AjouterJoueur(){
 	struct Joueur joueur;
 	int i;
 	int operationPoste;
@@ -69,22 +79,21 @@ struct Equipe AjouterJoueur(int nombreJoueursAjouter,int index, struct Equipe eq
 		index +=1;
 	}
 	if(nombreJoueursAjouter == 1){
-		printf("\tLe joueur est bien ajouter !! :");
+		printf("\n\tLe joueur est bien ajouter !! :");
 	}else{
-		printf("\tTous les joueur est bien ajouter !! :");
+		printf("\n\tTous les joueur est bien ajouter !! :");
 	}
-	return equipe;
 }
 
 
-void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
+void AffichageTrier(int Trier){
 	int i,j;
 	if(Trier == 1){
 		for(i = 0 ; i < size ;i++){
 			for(j = 0 ; j < size-1-i ;j++){
-				if(strcmp(joueurs[j].Nom,joueurs[j+1].Nom) > 0){
-					struct Joueur temp = joueurs[j];
-					joueurs[j] = joueurs[j+1];
+				if(strcmp(equipe.Joueurs[j].Nom,equipe.Joueurs[j+1].Nom) > 0){
+					struct Joueur temp = equipe.Joueurs[j];
+					equipe.Joueurs[j] = equipe.Joueurs[j+1];
 					joueurs[j+1]=temp;
 				}
 			}
@@ -103,19 +112,6 @@ void AffichageTrier(int Trier,int size,struct Joueur joueurs[]){
 	for(i = 0 ; i < size ;i++){
 		AfficherJoueur(joueurs[i]);
 	}
-}
-
-struct Equipe joueursParPoste2(char poste[],int size,struct Equipe equipe){
-	int i,cmpAjout=0;
-	struct Equipe NouvelleEquipe;
-	for(i = 0 ; i < size ;i++){
-		if(strcmp(equipe.Joueurs[i].Poste,poste) == 0){
-			NouvelleEquipe.Joueurs[cmpAjout] = equipe.Joueurs[i];
-			cmpAjout+=1;
-			sizeEquipeTrier+=1;
-		}
-	}
-	return NouvelleEquipe;
 }
 void joueursParPoste(char poste[],int size,struct Equipe equipe){
 	int i;
@@ -235,7 +231,7 @@ int Menu(){
 	printf(" 3 - Supprimer un joueur\n");
 	printf(" 4 - Afficher les joueurs\n");
 	printf(" 5 - Rechercher un joueur\n");
-	printf(" 6 - Statistiques de l equipe\n");
+	printf(" 6 - Statistiques de l'équipe\n");
 	printf(RED " 7 - Quitter le programme\n" RESET);
 	printf("============================================================\n");
 	printf("Entrez votre choix : ");
@@ -245,45 +241,25 @@ int Menu(){
 
 int MenuModification(){
 	int operationModification;
-	printf("    |====== MODIFICATION DU JOUEUR =======|\n");
-	printf("    |   1-Modifier le poste du joueur     |\n");
-	printf("    |   2-Modifier l'âge du joueur        |\n");
-	printf("    |   3-Modifier les buts du joueur     |\n");
-	printf("    |   3-Retour au menu principal        |\n");
-	printf("    |=====================================|\n");
+	printf("\n===== MODIFICATION DU JOUEUR =====\n");
+	printf(" 1 - Modifier le poste du joueur\n");
+	printf(" 2 - Modifier l'âge du joueur\n");
+	printf(" 3 - Modifier les buts du joueur\n");
+	printf(" 4 - Retour au menu principal\n");
+	printf("==================================\n");
 	printf("Votre choix : ");
 	scanf("%d", &operationModification);
 	return operationModification;
 }
-int MenuPosteTrier(){
-	int operation;
-	printf("                |======= AFFICHAGE DU POSTES TRIER ======|\n");
-	printf("                |   1-Trier par age                      |\n");
-	printf("                |   2-Trier par ordre alphabetique       |\n");
-	printf("                |   3-Pour retour a menu affichage       |\n");
-	printf("                |   4-Pour retour a menu principal       |\n");
-	printf("                |========================================|\n");
-	printf("                 Votre choix : ");
-	scanf("%d",&operation);
-	return operation;
-}
+
 
 int main(){
-	struct Equipe equipe;
-	struct Equipe nouvelleEquipe;
-	int i,PositionAjout = 0,NombreJoueurAjout;
-	int operationMenuPrincipal;
-	bool repetition = true;
-	int sizeJoueurs = 5;
-	int OperationAjout,operationModification,operationTypeRecherche,operationTrier,operationTrier2;
-	char nomRechercher[100],nouvellePoste[100];
-	int idRechercher,nouvelleAge,nouvelleButs,index,buts;
-	char confirmationSupprestion;
 	
-	struct Joueur j1 = {1,"mohsin","rouaki",10,"milieu",25,11};
+	
+	struct Joueur j1 = {1,"mohsin","rouaki",10,"milieux",25,11};
 	struct Joueur j2 = {2,"ahmed","sifi",9,"attaquant",21,20};
-	struct Joueur j3 = {3,"khalid","khalid",4,"defenseur",30,2};
-	struct Joueur j4 = {4,"ousama","anas",3,"defenseur",18,4};
+	struct Joueur j3 = {3,"khalid","khalid",4,"défenseur",30,2};
+	struct Joueur j4 = {4,"ousama","anas",3,"défenseur",18,4};
 	struct Joueur j5 = {5,"abdltif","joudi",99,"gardien",24,0};
 	equipe.Joueurs[PositionAjout] = j1;
 	PositionAjout+=1;
@@ -311,16 +287,14 @@ int main(){
 				scanf("%d",&OperationAjout);
 				switch(OperationAjout){
 					case 1:
-						nouvelleEquipe= AjouterJoueur(1,PositionAjout,equipe);
-						equipe = nouvelleEquipe;
+						AjouterJoueur(1,PositionAjout,equipe);
 						PositionAjout+=1;
 						sizeJoueurs+=1;
 						goto menuPrincipal;
 					case 2:
 						printf("    Donner nombre du joueur vous vouler ajouter :");
 						scanf("%d",&NombreJoueurAjout);
-						nouvelleEquipe = AjouterJoueur(NombreJoueurAjout,PositionAjout,equipe);
-						equipe = nouvelleEquipe;
+						AjouterJoueur(NombreJoueurAjout,PositionAjout,equipe);
 						PositionAjout+=NombreJoueurAjout;
 						sizeJoueurs+=NombreJoueurAjout;
 						goto menuPrincipal;
@@ -336,7 +310,6 @@ int main(){
 				printf(" Donner le id de joueur que tu dois modifier : ");
 				scanf("%d",&idRechercher);
 				if(RechercheJoueurParId(idRechercher,sizeJoueurs,equipe) != -1){
-					menuModification:
 					operationModification = MenuModification();
 					switch(operationModification){
 						case 1:
@@ -344,24 +317,24 @@ int main(){
 							scanf("%s",&nouvellePoste);
 							nouvelleEquipe = MoidifierPosteJoueurParId(idRechercher,nouvellePoste,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
-							goto menuModification;
+							goto menuPrincipal;
 						case 2:
 							printf("Donner le nouveau age : ");
 							scanf("%d",&nouvelleAge);
 							nouvelleEquipe = MoidifierJoueurParId(idRechercher,nouvelleAge,1,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
-							goto menuModification;
+							goto menuPrincipal;
 						case 3:
 							printf("Donner les nouveau buts : ");
 							scanf("%d",&nouvelleButs);
 							nouvelleEquipe= MoidifierJoueurParId(idRechercher,nouvelleButs,1,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
-							goto menuModification;
+							goto menuPrincipal;
 						case 4:
 							goto menuPrincipal;
 						default :
 							printf("choix ne pas correct");
-							goto menuModification;
+							goto menuPrincipal;
 					}
 						}else{
 							printf("le joueur ne pas trouver");
@@ -398,10 +371,10 @@ int main(){
 				switch(OperationAffichage){
 					case 1:
 						AffichageTrier(1,sizeJoueurs,equipe.Joueurs);
-						goto menuPrincipal;
+						break;
 					case 2:
 						AffichageTrier(2,sizeJoueurs,equipe.Joueurs);
-						goto menuPrincipal;
+						break;
 					case 3:
 						menuTrierParPoste:
 						printf("        |==========+ AFFICHAGE PAR POSTE ========|\n");
@@ -410,116 +383,34 @@ int main(){
 						printf("        |   3-Pour le poste (defenseur)          |\n");
 						printf("        |   4-Pour le poste (attaquant)          |\n");
 						printf("        |   5-Pour retour a menu affichage       |\n");
-						printf("        |   6-Pour retour a menu principal       |\n");
 						printf("        |========================================|\n");
 						printf("         Votre choix : ");
 						scanf("%d",&operationTrier);
 						switch(operationTrier){
 							case 1:
-								menuPosteTrierGardien:
-								operationTrier2=MenuPosteTrier();//afficher le menu de poste trier
-								switch(operationTrier2){
-									case 1:
-										nouvelleEquipe=joueursParPoste2(poste.gardien,sizeJoueurs,equipe);
-										AffichageTrier(2,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 2:
-										nouvelleEquipe=joueursParPoste2(poste.gardien,sizeJoueurs,equipe);
-										AffichageTrier(1,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 3:
-										goto menuTrierParPoste;
-									case 4:
-										goto menuPrincipal;
-									default:
-										printf("le choix ne pas correcte (retour a la derniere menu)");
-										goto menuPosteTrierGardien;
-								}
+								joueursParPoste(poste.gardien,sizeJoueurs,equipe);
+								break;
 							case 2:
-								menuPosteTrierMilieu:
-								operationTrier2=MenuPosteTrier();
-								switch(operationTrier2){
-									case 1:
-										nouvelleEquipe=joueursParPoste2(poste.milieu,sizeJoueurs,equipe);
-										AffichageTrier(2,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 2:
-										nouvelleEquipe=joueursParPoste2(poste.milieu,sizeJoueurs,equipe);
-										AffichageTrier(1,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 3:
-										goto menuTrierParPoste;
-									case 4:
-										goto menuPrincipal;
-									default:
-										printf("le choix ne pas correcte (retour a la derniere menu)");
-										goto menuPosteTrierMilieu;
-								}
+								joueursParPoste(poste.milieu,sizeJoueurs,equipe);
+								break;
 							case 3:
-								menuPosteTrierDefenseur:
-									operationTrier2=MenuPosteTrier();
-									switch(operationTrier2){
-										case 1:
-											nouvelleEquipe=joueursParPoste2(poste.defenseur,sizeJoueurs,equipe);
-											AffichageTrier(2,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-											sizeEquipeTrier = 0;
-											goto menuPrincipal;
-										case 2:
-											nouvelleEquipe=joueursParPoste2(poste.defenseur,sizeJoueurs,equipe);
-											AffichageTrier(1,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-											sizeEquipeTrier = 0;
-											goto menuPrincipal;
-										case 3:
-											goto menuTrierParPoste;
-										case 4:
-											goto menuPrincipal;
-										default:
-											printf("le choix ne pas correcte (retour a la derniere menu)");
-											goto menuPosteTrierDefenseur;
-									}
+								joueursParPoste(poste.defenseur,sizeJoueurs,equipe);
+								break;
 							case 4:
-								menuPosteTrierAttaquant:
-								operationTrier2=MenuPosteTrier();
-								switch(operationTrier2){
-									case 1:
-										nouvelleEquipe=joueursParPoste2(poste.attaquant,sizeJoueurs,equipe);
-										AffichageTrier(2,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 2:
-										nouvelleEquipe=joueursParPoste2(poste.attaquant,sizeJoueurs,equipe);
-										AffichageTrier(1,sizeEquipeTrier,nouvelleEquipe.Joueurs);
-										sizeEquipeTrier = 0;
-										goto menuPrincipal;
-									case 3:
-										goto menuTrierParPoste;
-									case 4:
-										goto menuPrincipal;
-									default:
-										printf("le choix ne pas correcte (retour a la derniere menu)");
-										goto menuPosteTrierAttaquant;
-								}
+								joueursParPoste(poste.attaquant,sizeJoueurs,equipe);
+								break;
 							case 5:
 								goto menuAffichage;
-							case 6:
-								goto menuPrincipal;
 							default:
 								printf("donner un nombre exist dans le sous menu");
 								goto menuTrierParPoste;
-							}
-						case 4:
-							goto menuPrincipal;
-							
+						}
+						break;
 					default :
-						printf("le choix ne pas trouver");
-						goto menuTrierParPoste;
+						printf("donner nombre de operation ajouter");
 				}
+				break;
 			case 5:
-				menuRecherche:
 				printf("    |==========+ RECHERCHE DU JOUEUR +=======|\n");
 				printf("    |   1-Pour Rechrcher par le nom          |\n");
 				printf("    |   2-Pour Rechercher par id             |\n");
@@ -537,7 +428,7 @@ int main(){
 						}else{
 							printf("     le joueur ne pas trouver");
 						}
-						goto menuPrincipal;
+						break;
 					case 2:
 						printf("     Donner le Id du joueur :");
 						scanf("%d",&idRechercher);
@@ -547,55 +438,48 @@ int main(){
 						}else{
 							printf("Donner le Nom du joueur :le joueur ne pas trouver");
 						}
-						goto menuPrincipal;
+						break;
 					case 3:
-						goto menuPrincipal;
+						break;
 					default :
-						printf("le choix ne pas trouver");
-						goto menuTrierParPoste;
+						printf("donner nombre de operation ajouter");
 				}
-				goto menuPrincipal;
+				break;
 			// les statistique de equipe
 			case 6 :
-				menuStatistique:
-				printf("    |=================+ STATISTIQUES DU JOUEURS +====================|\n");
-				printf("    |   1-Pour afficher le nombre total de joueurs dans l’equipe     |\n");
-				printf("    |   2-Pour afficher age moyen des joueurs                        |\n");
-				printf("    |   3-Pour afficher les joueurs ayant marque plus de X buts      |\n");
-				printf("    |   4-Pour afficher le meilleur buteur                           |\n");
-				printf("    |   5-Pour afficher le joueur le plus jeune et le plus age       |\n");
-				printf("    |   6--Pour Retour a menu principal                              |\n");
-				printf("    |================================================================|\n");
-				printf("     Votre choix : ");
+				printf(" 1-Pour afficher le nombre total de joueurs dans l’equipe\n");
+				printf(" 2-Pour afficher age moyen des joueurs.\n");
+				printf(" 3-Pour afficher les joueurs ayant marque plus de X buts\n");
+				printf(" 4-Pour afficher le meilleur buteur\n");
+				printf(" 5-Pour afficher le joueur le plus jeune et le plus age\n");
+				printf(" Entrez le numero d'operation :");
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
 						printf("le nombre total de ce equipe c est : %d",sizeJoueurs);
-						goto menuStatistique;
+						break;
 					case 2:
 						AgeMoyenne(sizeJoueurs,equipe);
-						goto menuStatistique;
+						break;
 					case 3:
 						printf("donner le nombre de buts :");
 						scanf("%d",&buts);
 						JoueursParButs(buts,sizeJoueurs,equipe);
-						goto menuStatistique;
+						break;
 					case 4:
 						MeilleurButeur(sizeJoueurs,equipe);
-						goto menuStatistique;
+						break;
 					case 5:
 						PlusJeuneAge(sizeJoueurs,equipe);
-						goto menuStatistique;
-					case 6:
-						goto menuPrincipal;
+						break;
 					default :
 						printf("donner nombre exist dans le sous menu !!");
-						goto menuStatistique;
 				}
+				break;
 				
 				// Quitter le programme
 			case 7:
-				printf("sou");
+				repetition = false;
 				break;
 		}
 	return 0;
