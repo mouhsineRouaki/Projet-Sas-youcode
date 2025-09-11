@@ -269,7 +269,7 @@ void AgeMoyenne(int size,struct Equipe equipe){
 		somme += equipe.Joueurs[i].Age;
 	}
 	moyenne = somme / size;
-	printf("age moyenne de ce equipe c est : %2.f",moyenne);
+	printf("age moyenne de ce equipe c est : %2.f\n",moyenne);
 }
 void JoueursParButs(int buts,int size,struct Equipe equipe){
 	int i;
@@ -332,7 +332,7 @@ int MenuModification(){
 	printf("    |   3-Modifier les buts du joueur     |\n");
 	printf("    |   4-Retour au menu principal        |\n");
 	printf("    |=====================================|\n");
-	printf("Votre choix : ");
+	printf("     Votre choix : ");
 	scanf("%d", &operationModification);
 	return operationModification;
 }
@@ -367,15 +367,15 @@ int main(){
 	struct Joueur j3 = {3, "Kante", "NGolo", 13, "milieu", 32, 3, "titulaire"};
 	struct Joueur j4 = {4, "Varane", "Raphael", 4, "defenseur", 31, 2, "titulaire"};
 	struct Joueur j5 = {5, "Lloris", "Hugo", 1, "gardien", 37, 0, "titulaire"};
-	struct Joueur j6 = {6, "Pavard", "Benjamin", 2, "defenseur", 29, 1, "remplaçant"};
+	struct Joueur j6 = {6, "Pavard", "Benjamin", 2, "defenseur", 29, 1, "remplacant"};
 	struct Joueur j7 = {7, "Grizman", "Antoine", 8, "milieu", 34, 18, "titulaire"};
-	struct Joueur j8 = {8, "Camavng", "Eduardo", 6, "milieu", 22, 4, "remplaçant"};
-	struct Joueur j9 = {9, "Kimpemb", "Presnel", 3, "defenseur", 30, 0, "remplaçant"};
-	struct Joueur j10 = {10, "Areola", "Alphonse", 16, "gardien", 32, 0, "remplaçant"};
+	struct Joueur j8 = {8, "Camavng", "Eduardo", 6, "milieu", 22, 4, "remplacant"};
+	struct Joueur j9 = {9, "Kimpemb", "Presnel", 3, "defenseur", 30, 0, "remplacant"};
+	struct Joueur j10 = {10, "Areola", "Alphonse", 16, "gardien", 32, 0, "remplacant"};
 	struct Joueur j11 = {11, "Theo", "Hernandz", 22, "defenseur", 27, 5, "titulaire"};
-	struct Joueur j12 = {12, "Giroud", "Olivier", 18, "attaquant", 38, 21, "remplaçant"};
+	struct Joueur j12 = {12, "Giroud", "Olivier", 18, "attaquant", 38, 21, "remplacant"};
 	struct Joueur j13 = {13,"Tchomin", "Aurelien", 14, "milieu", 25, 3, "titulaire"};
-	struct Joueur j14 = {14, "Coman", "Kingsley", 11, "attaquant", 29, 12, "remplaçant"};
+	struct Joueur j14 = {14, "Coman", "Kingsley", 11, "attaquant", 29, 12, "remplacant"};
 	struct Joueur j15 = {15, "Maigan", "Mike", 23, "gardien", 30, 0, "titulaire"};
 
 	equipe.Joueurs[PositionAjout] = j1;
@@ -444,7 +444,7 @@ int main(){
 				break;
 			// ========================================================================modification de joueur====================================================================
 			case 2:
-				printf(" Donner le id de joueur que tu dois modifier : ");
+				printf("    Donner le id de joueur que tu dois modifier : ");
 				scanf("%d",&idRechercher);
 				if(RechercheJoueurParId(idRechercher,sizeJoueurs,equipe) != -1){
 					menuModification:
@@ -682,7 +682,7 @@ int main(){
 					case 3:
 						goto menuPrincipal;
 					default :
-						printf("le choix ne pas trouver\n");
+						printf(RED"le choix ne pas trouver\n"RESET);
 						goto menuRecherche;
 				}
 				goto menuPrincipal;
@@ -701,7 +701,7 @@ int main(){
 				scanf("%d",&OperationAffichage);
 				switch(OperationAffichage){
 					case 1:
-						printf("le nombre total de ce equipe c est : %d",sizeJoueurs);
+						printf("le nombre total de ce equipe c est : %d\n",sizeJoueurs);
 						goto menuStatistique;
 					case 2:
 						AgeMoyenne(sizeJoueurs,equipe);
@@ -720,7 +720,7 @@ int main(){
 					case 6:
 						goto menuPrincipal;
 					default :
-						printf("donner nombre exist dans le sous menu !!");
+						printf(RED"le choix ne pas trouver\n"RESET);
 						goto menuStatistique;
 				}
 				
