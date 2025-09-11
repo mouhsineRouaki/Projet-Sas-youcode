@@ -8,6 +8,7 @@
 
 int idIncrement = 16;
 int sizeEquipeTrier = 0;
+
 struct Poste{
 	char gardien[100];
 	char defenseur[100]; 
@@ -34,19 +35,6 @@ struct Joueur {
 struct Equipe {
 	struct Joueur Joueurs[100];
 };
-int validEnter(char entryStr[],char erreurEntry[]){
-	bool isValid = true;
-	int operation;
-	while(isValid){
-			printf("\t%s",entryStr);
-			if(scanf("%d",&operation)==0){
-				printf(RED"\t%s"RESET,erreurEntry);
-				fflush(stdin);
-			}else{
-				isValid = false;
-			}
-	}
-}
 void AfficherJoueur(struct Joueur joueur){
 	if(joueur.Buts >= 10){
 		printf(GREEN "  ID : %-3d | Nom : %-8s | Prenom : %-8s | Maillot : %-3d | Poste : %-9s    | Age : %-2d | Buts : %-2d | Staus : %-8s  (Star de l equipe)\n" RESET,
@@ -148,7 +136,7 @@ struct Equipe AjouterJoueur(int nombreJoueursAjouter,int index, struct Equipe eq
 	if(nombreJoueursAjouter == 1){
 		printf(GREEN"\n\t======================Le joueur est bien ajouter========================="RESET);
 	}else{
-		printf(GREEN"\n\tTous les joueur est bien ajouter !! :"RESET);
+		printf(GREEN"\n\t=========================Tous les joueur est bien ajouter========================="RESET);
 	}
 	return equipe;
 }
@@ -475,23 +463,24 @@ int main(){
 							scanf("%d",&nouvelleAge);
 							nouvelleEquipe = MoidifierJoueurParId(idRechercher,nouvelleAge,1,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
-							goto menuPrincipal;
+							goto menuModification;
 						case 3:
 							printf("Donner les nouveau buts : ");
 							scanf("%d",&nouvelleButs);
 							nouvelleEquipe= MoidifierJoueurParId(idRechercher,nouvelleButs,2,sizeJoueurs,equipe);
 							equipe = nouvelleEquipe;
-							goto menuPrincipal;
+							goto menuModification;
 						case 4:
 							goto menuPrincipal;
 						default :
 							printf(RED"choix ne pas correct"RESET);
 							goto menuModification;
 					}
-						}else{
-							printf(RED"le joueur ne pas trouver"RESET);
-						}
-						break;
+				}else{
+					printf(RED"le joueur ne pas trouver\n"RESET);
+				}
+				goto menuPrincipal;
+				
 			// ========================================================================supprimer un joueur=====================================================================
 			case 3:
 				printf(" Donner le id de joueur que tu dois modifier : ");
@@ -506,6 +495,8 @@ int main(){
 						sizeJoueurs-=1;
 						PositionAjout -=1;
 					}
+				}else{
+					printf(RED"le joueur ne pas trouver\n"RESET);
 				}
 				goto menuPrincipal;
 				
