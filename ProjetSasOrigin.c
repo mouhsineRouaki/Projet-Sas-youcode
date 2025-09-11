@@ -41,10 +41,10 @@ int validEnter(char entryStr[],char erreurEntry[]){
 	while(isValid){
 			printf("\t%s",entryStr);
 			if(scanf("%d",&operation)==0){
-				printf(RED"\tle numero de mailot ne pas correct(donner un entier)\n"RESET);
+				printf(RED"\t%s"RESET,erreurEntry);
 				fflush(stdin);
 			}else{
-				numeroMailotJ = false;
+				isValid = false;
 			}
 	}
 }
@@ -197,10 +197,19 @@ struct Equipe joueursParPoste2(char poste[],int size,struct Equipe equipe){
 	}
 	return NouvelleEquipe;
 }
+
+char* toLowerCase(char str[]){
+	int i,size = strlen(str);
+	for(i = 0;i <size;i++){
+		str[i] = tolower(str[i]);
+	}
+	return str;
+}
+
 int RechercheJoueurParNom(char nomRechercher[100],int size,struct Equipe equipe){
 	int i;
 	for(i = 0 ; i < size ;i++){
-		if(strcmp(nomRechercher,equipe.Joueurs[i].Nom)==0){
+		if(strcmp(toLowerCase(nomRechercher),toLowerCase(equipe.Joueurs[i].Nom))==0){
 			return i;
 		}
 	}
@@ -429,7 +438,7 @@ int main(){
 					case 3:
 						goto menuPrincipal;
 					default :
-						printf("choix ne pas correct");
+						printf(RED"choix ne pas correct"RESET);
 						goto menuPrincipal;
 				}
 				break;
@@ -477,11 +486,11 @@ int main(){
 						case 4:
 							goto menuPrincipal;
 						default :
-							printf("choix ne pas correct");
+							printf(RED"choix ne pas correct"RESET);
 							goto menuModification;
 					}
 						}else{
-							printf("le joueur ne pas trouver");
+							printf(RED"le joueur ne pas trouver"RESET);
 						}
 						break;
 			// ========================================================================supprimer un joueur=====================================================================
@@ -490,7 +499,7 @@ int main(){
 				scanf("%d",&idRechercher);
 				index = RechercheJoueurParId(idRechercher,sizeJoueurs,equipe);
 				if(index != -1){
-					printf(" vous vouler supprimer ce joueur (y/n) : ");
+					printf(RED" vous vouler supprimer ce joueur (y/n) : "RESET);
 					scanf(" %c",&confirmationSupprestion);
 					if(confirmationSupprestion == 'y' || confirmationSupprestion == 'Y'){
 						nouvelleEquipe=SupprimerJoueur(index,sizeJoueurs,equipe);
@@ -673,8 +682,8 @@ int main(){
 					case 3:
 						goto menuPrincipal;
 					default :
-						printf("le choix ne pas trouver");
-						goto menuTrierParPoste;
+						printf("le choix ne pas trouver\n");
+						goto menuRecherche;
 				}
 				goto menuPrincipal;
 			// ===================================================================les statistique de equipe==========================================================================
